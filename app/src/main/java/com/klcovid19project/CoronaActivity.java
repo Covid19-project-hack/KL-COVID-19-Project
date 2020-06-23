@@ -91,7 +91,6 @@ public class CoronaActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         try {
                             JSONObject jsonObject = response.getJSONObject("Kerala").getJSONObject("districtData");
-                            Log.i("jsonresponse","hi");
                             Iterator iterator = jsonObject.keys();
                             while (iterator.hasNext()) {
                                 String key = (String) iterator.next();

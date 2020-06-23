@@ -2,16 +2,18 @@ package com.klcovid19project.Models;
 
 public class HealthCareList {
 
-    String sno, district, name, type;
+    String sno, address, fp, cap, name, officer;
 
     public HealthCareList() {
     }
 
-    public HealthCareList(String sno, String district, String name, String type) {
+    public HealthCareList(String sno, String address, String fp, String cap, String name, String officer) {
         this.sno = sno;
-        this.district = district;
+        this.address = address;
+        this.fp = fp;
+        this.cap = cap;
         this.name = name;
-        this.type = type;
+        this.officer = officer;
     }
 
     public String getSno() {
@@ -22,12 +24,28 @@ public class HealthCareList {
         this.sno = sno;
     }
 
-    public String getDistrict() {
-        return district;
+    public String getAddress() {
+        return address;
     }
 
-    public void setDistrict(String district) {
-        this.district = district;
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getFp() {
+        return fp;
+    }
+
+    public void setFp(String fp) {
+        this.fp = fp;
+    }
+
+    public String getCap() {
+        return cap;
+    }
+
+    public void setCap(String cap) {
+        this.cap = cap;
     }
 
     public String getName() {
@@ -38,11 +56,11 @@ public class HealthCareList {
         this.name = name;
     }
 
-    public String getType() {
-        return type;
+    public String getOfficer() {
+        return officer;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setOfficer(String officer) {
+        this.officer = officer;
     }
 }

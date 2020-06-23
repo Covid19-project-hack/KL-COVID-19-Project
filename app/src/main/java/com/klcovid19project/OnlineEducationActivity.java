@@ -19,7 +19,7 @@ public class OnlineEducationActivity extends AppCompatActivity {
     private GridView Grid_View;
 
     String[] web = {
-            "AP Stateboard",
+            "KL Stateboard",
             "CBSE",
             "Online Vocational Courses"
 

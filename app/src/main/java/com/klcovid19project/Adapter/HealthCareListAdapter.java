@@ -46,9 +46,10 @@ public class HealthCareListAdapter extends RecyclerView.Adapter<HealthCareListAd
 
         final HealthCareList persons = mHealthCareList.get(position);
 
-        holder.District.setText(persons.getDistrict());
         holder.Hospital.setText(persons.getName());
-        holder.Type.setText(persons.getType());
+        holder.Location.setText(persons.getAddress());
+        holder.Officer.setText(persons.getOfficer());
+        holder.Details.setText(persons.getFp()+", "+"Capcity : "+persons.getCap());
 
     }
 
@@ -69,9 +70,9 @@ public class HealthCareListAdapter extends RecyclerView.Adapter<HealthCareListAd
                     List<HealthCareList> filteredList = new ArrayList<>();
                     for (HealthCareList row : mDefaultHealthCareList) {
 
-                        if (row.getDistrict().toLowerCase().contains(charString) ||
+                        if (row.getOfficer().toLowerCase().contains(charString) ||
                                 row.getName().toLowerCase().contains(charSequence) ||
-                                row.getType().toLowerCase().contains(charSequence)
+                                row.getAddress().toLowerCase().contains(charSequence)
                         ) {
                             filteredList.add(row);
                         }
@@ -96,14 +97,15 @@ public class HealthCareListAdapter extends RecyclerView.Adapter<HealthCareListAd
 
     public class ImageViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView District, Hospital, Type;
+        private TextView Location, Hospital, Officer, Details;
 
         public ImageViewHolder(View itemView) {
             super(itemView);
 
-            District = itemView.findViewById(R.id.district);
+            Location = itemView.findViewById(R.id.location);
+            Officer = itemView.findViewById(R.id.officer);
+            Details = itemView.findViewById(R.id.details);
             Hospital = itemView.findViewById(R.id.hospital);
-            Type = itemView.findViewById(R.id.type);
 
         }
     }

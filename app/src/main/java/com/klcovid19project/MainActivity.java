@@ -18,18 +18,19 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.klcovid19project.Adapter.GridAdapter;
 import com.klcovid19project.Adapter.MainAdapter;
 import com.klcovid19project.Login.LoginActivity;
 import com.klcovid19project.Login.ProfileActivity;
 import com.klcovid19project.Models.Jsons;
 import com.klcovid19project.Models.Users;
-import com.klcovid19project.OrphanageSupport.FreeFoodActivity;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -38,13 +39,17 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class MainActivity extends AppCompatActivity {
 
     private DatabaseReference mUsersDatabase;
     private RecyclerView Grid_List;
     private FirebaseAuth mAuth;
     private ImageView Profile, Menu;
-    private FloatingActionButton Alarm;
+    private TextView Confirmed, Deceased, Tested, Recovered;
+    private RequestQueue mRequestQueue;
 
     String[] web = {
             "Corona Status",
@@ -106,9 +111,7 @@ public class MainActivity extends AppCompatActivity {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(),3, LinearLayoutManager.VERTICAL,false);
         Grid_List.setLayoutManager(gridLayoutManager);
 
-        MainAdapter mainAdapter = new MainAdapter(MainActivity.this, web, imageId);
-        Grid_List.setAdapter(mainAdapter);
-
+        mRequestQueue = Volley.newRequestQueue(MainActivity.this);
         Profile = findViewById(R.id.toolbar_profile);
         Menu = findViewById(R.id.toolbar_menu);
         Profile.setOnClickListener(new View.OnClickListener() {
@@ -120,7 +123,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Confirmed = findViewById(R.id.confirmed_count);
+        Recovered = findViewById(R.id.cured_count);
+        Tested = findViewById(R.id.tested_count);
+        Deceased  = findViewById(R.id.deceased_count);
 
+        MainAdapter mainAdapter = new MainAdapter(MainActivity.this, web, imageId);
+        Grid_List.setAdapter(mainAdapter);
+
+        parseJSON();
 
         Menu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -200,5 +211,36 @@ public class MainActivity extends AppCompatActivity {
                         MainActivity.super.onBackPressed();
                     }
                 }).create().show();
+    }
+
+    private void parseJSON() {
+        JsonObjectRequest request = new JsonObjectRequest("https://api.covid19india.org/v3/data.json", null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONObject jsonObject = response.getJSONObject("KL").getJSONObject("total");
+                            String confirmed = jsonObject.getString("confirmed");
+                            String deceased = jsonObject.getString("deceased");
+                            String tested = jsonObject.getString("tested");
+                            String recovered = jsonObject.getString("recovered");
+
+                            Confirmed.setText(confirmed);
+                            Deceased.setText(deceased);
+                            Tested.setText(tested);
+                            Recovered.setText(recovered);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        });
+
+        mRequestQueue.add(request);
     }
 }

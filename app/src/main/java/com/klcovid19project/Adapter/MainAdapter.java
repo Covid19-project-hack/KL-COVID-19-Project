@@ -18,7 +18,6 @@ import com.klcovid19project.HealthCareListActivity;
 import com.klcovid19project.MedicalStoresActivity;
 import com.klcovid19project.OrphanageSupport.FreeFoodActivity;
 import com.klcovid19project.TollNumbersActivity;
-import com.klcovid19project.VideosActivity;
 import com.bumptech.glide.Glide;
 
 import com.klcovid19project.CoronaActivity;
@@ -40,12 +39,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ImageViewHolder> {
 
     private Context mContext;
     private int[] Image;
     private String[] Title;
     private DatabaseReference mJsonDatabase;
+
 
     public MainAdapter(Context context, String[] titles, int[] images) {
         mContext = context;
@@ -72,7 +73,6 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ImageViewHolde
                 .into(holder.Image);
         mJsonDatabase = FirebaseDatabase.getInstance().getReference().child("Jsons");
         mJsonDatabase.keepSynced(true);
-
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -162,7 +162,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ImageViewHolde
 
                             case 15:
                                 Intent counsellingintent = new Intent(mContext, CounsellingActivity.class);
-                                counsellingintent.setData(Uri.parse(jsons.getCounselling()));
+                                counsellingintent.putExtra("url", jsons.getCounselling());
                                 mContext.startActivity(counsellingintent);
                                 break;
 
@@ -186,8 +186,8 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ImageViewHolde
                                 mContext.startActivity(tweetintent);
                                 break;
                             case 19:
-                                Intent videointent = new Intent(mContext, VideosActivity.class);
-                                videointent.putExtra("url", jsons.getVideos());
+                                Intent videointent = new Intent(Intent.ACTION_VIEW);
+                                videointent.setData(Uri.parse(jsons.getVideos()));
                                 mContext.startActivity(videointent);
                                 break;
                             case 20:

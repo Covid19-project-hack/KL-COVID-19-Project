@@ -3,12 +3,12 @@ package com.klcovid19project.Models;
 public class Jsons {
 
     String videos, home_treatment_images, home_treatment_links, toll_numbers, lab_test, donate,
-            tweets, faq, epass, tracker, counselling, corona, kl, cbse, vocational_education, go;
+            tweets, faq, epass, tracker, counselling, corona, kl, cbse, vocational_education, go, details;
 
     public Jsons() {
     }
 
-    public Jsons(String videos, String home_treatment_images, String home_treatment_links, String toll_numbers, String lab_test, String donate, String tweets, String faq, String epass, String tracker, String counselling, String corona, String kl, String cbse, String vocational_education, String go) {
+    public Jsons(String videos, String home_treatment_images, String home_treatment_links, String toll_numbers, String lab_test, String donate, String tweets, String faq, String epass, String tracker, String counselling, String corona, String kl, String cbse, String vocational_education, String go, String details) {
         this.videos = videos;
         this.home_treatment_images = home_treatment_images;
         this.home_treatment_links = home_treatment_links;
@@ -25,6 +25,7 @@ public class Jsons {
         this.cbse = cbse;
         this.vocational_education = vocational_education;
         this.go = go;
+        this.details = details;
     }
 
     public String getVideos() {
@@ -153,5 +154,13 @@ public class Jsons {
 
     public void setGo(String go) {
         this.go = go;
+    }
+
+    public String getDetails() {
+        return details;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
     }
 }
